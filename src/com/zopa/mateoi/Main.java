@@ -10,6 +10,8 @@ public class Main {
     private static final double MAX_LOAN = 15000;
     /** The value loans must be multiples of */
     private static final double LOAN_INTERVAL = 100;
+    /** The default loan term, in months */
+    private static final double DEFAULT_LOAN_TERM = 36;
 
     public static void main(String[] args) {
         if (args.length != 2) {
