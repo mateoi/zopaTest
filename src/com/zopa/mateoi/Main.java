@@ -1,7 +1,14 @@
 package com.zopa.mateoi;
+
+/**
+ * Main class. Launches application and validates arguments
+ */
 public class Main {
+    /** The minimum permissible loan */
     private static final double MIN_LOAN = 1000;
+    /** The maximum permissible loan */
     private static final double MAX_LOAN = 15000;
+    /** The value loans must be multiples of */
     private static final double LOAN_INTERVAL = 100;
 
     public static void main(String[] args) {
@@ -15,6 +22,12 @@ public class Main {
         System.out.println(amount);
     }
 
+    /**
+     * Parses and validates the given string to see if it's a valid loan amount.
+     * Exits with an error code if the value cannot be parsed or if it's an invalid amount.
+     * @param s The string to parse and validate
+     * @return The amount to loan, if valid.
+     */
     private static double parseAmount(String s) {
         double amount = 0;
         try {
