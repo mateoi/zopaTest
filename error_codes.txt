@@ -1,0 +1,6 @@
+0: No error, program exited normally
+1: Too many or too few command line arguments
+2: Could not parse requested amount
+3: Invalid loan amount
+4: Insufficient funds
+5: Could not open creditor file
