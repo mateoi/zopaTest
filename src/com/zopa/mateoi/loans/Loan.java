@@ -9,15 +9,15 @@ import java.util.Map;
  */
 public class Loan {
     /** Creditors lending money for this loan */
-    private Map<Creditor, Double> creditors;
+    private final Map<Creditor, Double> creditors;
     /** Number of months the loan must be repaid in */
-    private int term;
+    private final int term;
     /** Effective interest rate of this loan */
-    private double interest;
+    private final double interest;
     /** Amount borrowed from creditors */
-    private double principal;
+    private final double principal;
     /** Monthly payment */
-    private double payment;
+    private final double payment;
 
     /**
      * Create a loan from the given creditors
