@@ -18,4 +18,6 @@ public class Market {
         this.creditors = new ArrayList<>();
         this.creditors.addAll(creditors);
     }
+
+
 }
