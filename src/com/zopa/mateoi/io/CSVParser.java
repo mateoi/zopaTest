@@ -60,7 +60,7 @@ public class CSVParser {
         }
         try {
             String name = columns[0];
-            double rate = Double.parseDouble(columns[1]);
+            double rate = Double.parseDouble(columns[1]) / 12;
             double amount = Double.parseDouble(columns[2]);
             return new Creditor(name, amount, rate);
         } catch (NumberFormatException e) {

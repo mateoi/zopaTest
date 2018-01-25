@@ -4,8 +4,11 @@ package com.zopa.mateoi.loans;
  * A creditor is a person that lends money at a particular rate.
  */
 public class Creditor {
+    /** The Creditor's name */
     private final String name;
+    /** The amount available to lend */
     private final double credit;
+    /** The interest money is loaned at */
     private final double interest;
 
     /**
