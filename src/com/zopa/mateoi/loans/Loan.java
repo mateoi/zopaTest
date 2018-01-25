@@ -30,22 +30,54 @@ public class Loan {
         this.term = term;
         payment = calculatePayment();
         principal = calculatePrincipal();
-        interest = calculateEffectiveInterest(payment, principal);
+        interest = calculateEffectiveInterest();
     }
 
-    private double calculateEffectiveInterest(double payment, double principal) {
-        //TODO: this method
-        return 0;
+    /**
+     * Calculates the effective interest rate of this loan by making a weighted average of all creditors.
+     * @return The effective interest rate of this loan
+     */
+    private double calculateEffectiveInterest() {
+        double sum = creditors.entrySet().stream(). // Stream all the creditors
+                map(e->e.getValue()*e.getKey().getInterest()). // Multiply their rates by their amount loaned
+                reduce(0., Double::sum); // And add them all up
+        return sum / this.principal;
     }
 
+    /**
+     * Calculate the principal of this loan
+     * @return The loan's principal
+     */
     private double calculatePrincipal() {
-        //TODO: this method
-        return 0;
+        return creditors.values().stream().reduce(0., Double::sum);
     }
 
+    /**
+     * Calculate the payment due each month by aggregating the money owed to each creditor
+     * @return The total payment due each month
+     */
     private double calculatePayment() {
-        //TODO: this method
-        return 0;
+        double payment = 0;
+        for (Map.Entry<Creditor, Double> creditor : creditors.entrySet()) {
+            payment += calculateSinglePayment(this.term, creditor.getValue(), creditor.getKey().getInterest());
+        }
+        return payment;
+    }
+
+    /**
+     * Calculate the fixed-rate payment for a loan with the given principal, rate and term.
+     * This is using A = (R/(1-(1+R)^-n))*P, where R is the rate, n is the term and P is the principal.
+     * @param term The number of payments to make
+     * @param principal The money borrowed initially
+     * @param rate The interest rate per period
+     * @return The amount due each term
+     */
+    private static double calculateSinglePayment(int term, double principal, double rate) {
+        if (rate == 0) { // prevent division by zero
+            return principal / term;
+        }
+        double proportion = rate / (1 - (Math.pow(1 + rate, -term)));
+        return proportion * principal;
     }
 
     public int getTerm() {
