@@ -1,5 +1,9 @@
 package com.zopa.mateoi;
 
+import com.zopa.mateoi.io.CSVParser;
+import com.zopa.mateoi.loans.Loan;
+import com.zopa.mateoi.loans.Market;
+
 /**
  * Main class. Launches application and validates arguments
  */
@@ -11,7 +15,7 @@ public class Main {
     /** The value loans must be multiples of */
     private static final double LOAN_INTERVAL = 100;
     /** The default loan term, in months */
-    private static final double DEFAULT_LOAN_TERM = 36;
+    private static final int DEFAULT_LOAN_TERM = 36;
 
     public static void main(String[] args) {
         if (args.length != 2) {
@@ -20,9 +24,30 @@ public class Main {
         }
         String filename = args[0];
         double amount = parseAmount(args[1]);
-        System.out.println(filename);
-        System.out.println(amount);
+        Market market = CSVParser.getInstance().parseMarket(filename);
+        if (market == null) {
+            System.out.println("Could not open " + filename);
+            System.exit(5);
+        }
+        Loan loan = market.createLoan(amount, DEFAULT_LOAN_TERM);
+        if (loan == null) {
+            System.out.println("It is not possible to finance this loan at this time");
+            System.exit(4);
+        }
+        printLoanTerms(loan);
     }
+
+    /**
+     * Outputs the terms of the requested loan
+     * @param loan The loan to print
+     */
+    private static void printLoanTerms(Loan loan) {
+        System.out.println("Requested amount: £" + (int) loan.getPrincipal());
+        System.out.format("Rate: %.1f%%%n", 100 * 12 * loan.getInterest());
+        System.out.format("Monthly repayment: £%.2f%n", loan.getPayment());
+        System.out.format("Total repayment: £%.2f%n", loan.getTotalPayment());
+    }
+
 
     /**
      * Parses and validates the given string to see if it's a valid loan amount.
