@@ -37,6 +37,9 @@ public class Loan {
      * @return The effective interest rate of this loan
      */
     private double calculateEffectiveInterest() {
+        if (this.principal == 0) {
+            return 0;
+        }
         double sum = creditors.entrySet().stream(). // Stream all the creditors
                 map(e->e.getValue()*e.getKey().getInterest()). // Multiply their rates by their amount loaned
                 reduce(0., Double::sum); // And add them all up
