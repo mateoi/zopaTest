@@ -28,9 +28,10 @@ public class Market {
      */
     public Loan createLoan(double amount, int term) {
         Map<Creditor, Double> lenders = new HashMap<>(); // The amount each creditor will lend for this loan
+        Loan loan = null;
         for (Creditor creditor : creditors) {
             if (amount <= 0) {
-                return new Loan(lenders, term);
+                break;
             }
             if (amount <= creditor.getCredit()) {
                 lenders.put(creditor, amount);
@@ -40,6 +41,9 @@ public class Market {
                 amount -= creditor.getCredit();
             }
         }
-        return null;
+        if (amount == 0) {
+            loan = new Loan(lenders, term);
+        }
+        return loan;
     }
 }
